@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LinkController;
+use App\Http\Controllers\LangController;
+use App\Http\Controllers\LogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +20,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
+
+// User routes.
+Route::group(['middleware' => ['auth', 'user'], 'prefix' => 'dashboard'], function () {
+    Route::get('/', [LinkController::class, 'index'])->name('dashboard');
+    Route::resource('links', LinkController::class);
+});
+
+// Admin routes.
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin/dashboard'], function () {
+    Route::get('/', [LogController::class, 'index'])->name('admin_dashboard');
+});
 
 require __DIR__.'/auth.php';
+
+Route::get('/{shortLink}', [LinkController::class, 'redirection'])->middleware('auth')->name('shortLinkHandler');
+Route::get('/{shortLink}', [LinkController::class, 'redirection'])->name('shortLinkHandler');
