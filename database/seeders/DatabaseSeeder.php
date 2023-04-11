@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         User::factory()->create([
-            'role' => 'admin'
+            'email' => 'admin@test.com',
+            'role' => 'admin',
         ]);
     }
 }
