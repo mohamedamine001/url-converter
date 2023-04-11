@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 class CreateLogsTable extends Migration
 {
@@ -15,7 +16,14 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('source');
+            $table->foreignIdFor(User::class)
+                ->nullable()
+                ->constrained();
+            $table->string('ip');
+            $table->string('country')->nullable();
+            $table->text('user_agent');
+            $table->date('created_at');
         });
     }
 
