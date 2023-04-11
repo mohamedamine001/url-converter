@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Link;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,10 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory(2)
-            ->hasLinks(5)
+            ->hasLinks(3)
             ->create();
-            
-        User::factory()->create();
 
         User::factory()->create([
             'role' => 'admin'
